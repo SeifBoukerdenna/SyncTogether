@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { Theme } from 'src/Theme/theme.d';
 import { Button, Text, Icon } from '@rneui/themed';
 
+import AddEvent from '@src/Screen/AddEvent';
 
 
 export default function Tab() {
@@ -12,7 +13,7 @@ export default function Tab() {
 
     return (
         <View style={styles.container}>
-            <Text h1>Add</Text>
+            <AddEvent />
         </View>
     );
 }
