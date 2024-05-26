@@ -2,6 +2,7 @@ import { Theme } from "@src/Theme/theme.d";
 import { useTheme } from "@src/hooks/useTheme";
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import { MarkedDates } from "react-native-calendars/src/types";
 
 
 
@@ -50,39 +51,30 @@ LocaleConfig.locales['en'] = {
 LocaleConfig.defaultLocale = 'en';
 
 
+type CalendarComponentProps = {
+    markedDates: MarkedDates | undefined
+}
 
-const CalendarComponent = () => {
+const CalendarComponent = ({ markedDates }: CalendarComponentProps) => {
     const theme = useTheme();
     const styles = makeStyles(theme);
-
-    const markedDates = {
-        '2024-05-01': { marked: true, selectedColor: 'purple' },
-        '2024-05-10': { marked: true, selectedColor: 'purple' },
-        '2024-05-15': { marked: true, selectedColor: 'purple' },
-    };
 
     return (
         <View style={styles.container}>
             <SafeAreaView>
                 <Calendar
                     markedDates={markedDates}
-                    // Initially visible month. Default = Date()
                     current={new Date().toISOString().split('T')[0]}
-                    // Handler which gets executed on day press. Default = undefined
                     onDayPress={(day) => {
                         console.log('selected day', day);
                     }}
                     monthFormat={'MMMM yyyy'}
                     hideExtraDays={true}
-                    // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out day from another month that is visible in calendar page. Default = false
                     disableMonthChange={true}
-
 
                     onPressArrowLeft={(subtractMonth) => subtractMonth()}
                     onPressArrowRight={(addMonth) => addMonth()}
 
-                    // Enable the option to swipe between months. Default = false
-                    enableSwipeMonths={true}
                     theme={{
                         calendarBackground: theme.colors.black,
                         textSectionTitleColor: 'white',
@@ -112,7 +104,6 @@ const CalendarComponent = () => {
 
 const makeStyles = (theme: Theme) => StyleSheet.create({
     container: {
-        // flex: 1,
         padding: 20,
         backgroundColor: theme.colors.onBackground,
     },
