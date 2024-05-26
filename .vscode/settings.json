@@ -5,6 +5,7 @@
         "Pressable",
         "rneui",
         "supabase",
-        "tamagui"
+        "tamagui",
+        "tanstack"
     ]
 }
