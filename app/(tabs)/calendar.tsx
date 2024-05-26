@@ -12,7 +12,7 @@ export default function Tab() {
 
     return (
         <View style={styles.container}>
-            <Text h1>About Home</Text>
+            <Text h1>Calendar</Text>
         </View>
     );
 }

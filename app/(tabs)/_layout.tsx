@@ -1,37 +1,71 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { theme } from 'src/Theme/theme'
+import { Button, Text, Icon } from '@rneui/themed';
+import { StyleSheet, View } from 'react-native'
 
-import { TabBarIcon } from 'src/components/navigation/TabBarIcon';
-import { Colors } from 'src/constants/Colors';
-import { useColorScheme } from 'src/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+    return (
+        <Tabs screenOptions={{ tabBarInactiveTintColor: theme.colors.white, tabBarActiveTintColor: theme.colors.primary, tabBarShowLabel: false, tabBarStyle: { backgroundColor: theme.colors.black, borderTopWidth: 0 } }}>
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: 'Home',
+                    tabBarIcon: ({ color }) => <Icon size={28} name="home" color={color} />,
+                    headerShown: false,
+                }}
+            />
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+            <Tabs.Screen
+                name="calendar"
+                options={{
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <Icon size={28} type='font-awesome' name="calendar" color={color} />,
+                    headerShown: false
+                }}
+            />
+
+            <Tabs.Screen
+                name="add"
+                options={{
+                    title: 'add',
+                    tabBarIcon: ({ color }) => <View style={styles.circle}>
+                        <Icon size={30} type='ionicon' name="add" color={color} />
+                    </View>,
+                    headerShown: false
+                }}
+            />
+
+            <Tabs.Screen
+                name="settings"
+                options={{
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <Icon size={28} type='font-awesome' name="camera-retro" color={color} />,
+                    headerShown: false
+                }}
+            />
+            <Tabs.Screen
+                name="account"
+                options={{
+                    tabBarIcon: ({ color }) => <Icon name="cog" type="font-awesome" color={color} size={28} />,
+                    headerShown: false
+                }}
+            />
+        </Tabs>
+    );
 }
+
+const styles = StyleSheet.create({
+    circle: {
+        width: 50,
+        height: 50,
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: theme.colors.white,
+        backgroundColor: theme.colors.onBackground,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+    }
+});

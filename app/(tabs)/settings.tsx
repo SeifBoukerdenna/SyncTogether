@@ -1,6 +1,6 @@
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { Theme } from 'src/Theme/theme.d';
 import { Button, Text, Icon } from '@rneui/themed';
 
@@ -12,7 +12,7 @@ export default function Tab() {
 
     return (
         <View style={styles.container}>
-            <Text h1>About Home</Text>
+            <Text h1>Settings page</Text>
         </View>
     );
 }
@@ -25,4 +25,3 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         alignItems: 'center',
     }
 })
-
