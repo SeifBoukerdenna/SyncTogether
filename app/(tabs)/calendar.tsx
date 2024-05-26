@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Theme } from 'src/Theme/theme.d';
 import { Button, Text, Icon } from '@rneui/themed';
-
+import CalendarScreen from 'src/Screen/CalendarScreen';
 
 
 export default function Tab() {
@@ -11,9 +11,11 @@ export default function Tab() {
     const styles = makeStyles(theme);
 
     return (
-        <View style={styles.container}>
-            <Text h1>Calendar</Text>
-        </View>
+        // <View style={styles.container}>
+        //     <Text h1>Calendar</Text>
+        // </View>
+        <CalendarScreen />
+
     );
 }
 
