@@ -39,4 +39,13 @@ export interface Theme {
     xl:number;
     xxl: number;
   };
+  fontSize: {
+    xxs: number,
+    xs: number,
+    s: number,
+    m: number,
+    l: number,
+    xl: number,
+    xxl: number
+  }
 }

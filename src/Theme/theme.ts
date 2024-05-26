@@ -43,4 +43,14 @@ export const theme: Theme = {
     xl: 24,
     xxl: 32,
   },
+  fontSize: {
+    xxs: 10,
+    xs: 12,
+    s: 14,
+    m: 16,
+    l: 20,
+    xl: 24,
+    xxl: 28,
+  },
+
 };
