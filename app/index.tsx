@@ -23,7 +23,7 @@ const Index: React.FC = () => {
           style={styles.item}
           source={require('assets/images/logo_png.png')}
         />
-        <Link href="(tabs)" asChild>
+        <Link replace href="(tabs)" asChild>
           <Button buttonStyle={styles.button} color={theme.colors.primary} type='solid'>
             <Icon type='font-awesome' name="heart" color="white" size={35} />
           </Button>
