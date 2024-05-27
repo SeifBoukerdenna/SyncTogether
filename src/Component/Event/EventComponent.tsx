@@ -5,13 +5,8 @@ import { useTheme } from '@src/hooks/useTheme';
 import { Theme } from '@src/Theme/theme.d';
 import { supabase } from 'supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface EventProps {
-    id: number;
-    title: string;
-    hour: string;
-    date: string;
-}
+import { useRouter } from 'expo-router';
+import { EventType } from './types';
 
 const deleteEventFromSupabase = async (id: number) => {
     const { data, error } = await supabase.from('Event').delete().match({ id });
@@ -21,7 +16,7 @@ const deleteEventFromSupabase = async (id: number) => {
     return data;
 };
 
-const EventComponent: React.FC<EventProps> = ({ id, title, hour, date }) => {
+const EventComponent: React.FC<EventType> = ({ id, title, hour, date }) => {
     const theme = useTheme();
     const styles = makeStyles(theme);
     const [pressIn, setIsPressIn] = useState(false);
@@ -37,11 +32,15 @@ const EventComponent: React.FC<EventProps> = ({ id, title, hour, date }) => {
         }
     });
 
+    const router = useRouter();
+
+
     return (
         <Button
             buttonStyle={pressIn ? styles.containerPressIn : styles.container}
             onPressOut={() => { setIsPressIn(false) }}
             onPressIn={() => { setIsPressIn(true) }}
+            onPress={() => { router.navigate(`/event/${id}`) }} //navigate to the page with id as user
         >
             <Icon name="event" size={24} color="white" style={styles.icon} />
             <View style={styles.details}>

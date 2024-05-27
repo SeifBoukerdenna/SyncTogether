@@ -6,7 +6,6 @@ import { MarkedDates } from "react-native-calendars/src/types";
 
 
 
-// Set locale configuration (optional)
 LocaleConfig.locales['en'] = {
     monthNames: [
         'January',

@@ -7,30 +7,13 @@ import { useTheme } from '@src/hooks/useTheme';
 import { Theme } from '@src/Theme/theme.d';
 import { useRouter } from 'expo-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
+import addEventToSupabase from '@src/Api/Event/addEvent';
 // Enum for form status
 enum Status {
     Idle = 'idle',
     Error = 'error',
     Success = 'success'
 }
-
-// Function to add an event to Supabase
-const addEventToSupabase = async (eventData: {
-    title: string;
-    description: string;
-    date: string;
-    hour: string;
-}) => {
-    const { data, error } = await supabase
-        .from('Event')
-        .insert([eventData]);
-
-    if (error) {
-        throw new Error(error.message);
-    }
-    return data;
-};
 
 const AddEvent: React.FC = () => {
     const theme = useTheme();
@@ -45,7 +28,6 @@ const AddEvent: React.FC = () => {
 
     const queryClient = useQueryClient();
 
-    // Define the mutation
     const { mutate, status: mutationStatus } = useMutation({
         mutationFn: addEventToSupabase,
         onSuccess: () => {
@@ -63,7 +45,6 @@ const AddEvent: React.FC = () => {
         }
     });
 
-    // Handle the add event button press
     const handleAddEvent = () => {
         const eventData = {
             title,

@@ -1,25 +1,20 @@
+import React from 'react';
+import { Text, Button } from '@rneui/themed';
 import { Theme } from '@src/Theme/theme.d';
 import { useTheme } from '@src/hooks/useTheme';
-import React from 'react';
+import { supabase } from 'supabase';
+import { useQuery } from '@tanstack/react-query';
+import { MarkedDates } from 'react-native-calendars/src/types';
 import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
+import { EventType } from '@src/Component/Event/types';
+
 import CalendarComponent from '@src/Component/Calendar/CalendarComponent';
 import CalendarButton from '@src/Component/Calendar/CalendarButton';
 import getCurrentDayFormatted from '@src/utils/getCurrentDay';
-import { Text } from '@rneui/base';
-import { supabase } from 'supabase';
-import { Button } from '@rneui/themed';
-import { useQuery } from '@tanstack/react-query';
 import EventComponent from '@src/Component/Event/EventComponent';
-import { MarkedDates } from 'react-native-calendars/src/types';
 import EmptyListComponent from '@src/Component/EmptyListComponent';
-interface EventProps {
-    id: number;
-    title: string;
-    hour: string;
-    date: string;
-}
 
-const fetchEvents = async (): Promise<EventProps[]> => {
+const fetchEvents = async (): Promise<EventType[]> => {
     const { data, error } = await supabase.from('Event').select('*');
     if (error) {
         throw new Error(error.message);
@@ -31,7 +26,7 @@ const CalendarScreen = () => {
     const theme = useTheme();
     const styles = makeStyles(theme);
 
-    const { data: events, error, isLoading } = useQuery<EventProps[], Error>({
+    const { data: events, error, isLoading } = useQuery<EventType[], Error>({
         queryKey: ['events'],
         queryFn: fetchEvents,
     });
@@ -40,10 +35,12 @@ const CalendarScreen = () => {
 
     if (events) {
         events.forEach(event => {
-            const date = event.date; // Assume "date" is in "YYYY-MM-DD" format
+            const date = event.date;
+            const [hour, minute] = event.hour.split(':');
             if (!markedDates[date]) {
                 markedDates[date] = { marked: true, dots: [{ color: theme.colors.primary }] };
             }
+            event.hour = hour.toString() + ":" + minute.toString();
         });
     }
 
@@ -63,7 +60,7 @@ const CalendarScreen = () => {
                     data={events}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <EventComponent key={item.id} id={item.id} title={item.title} hour={item.hour} date={item.date} />
+                        <EventComponent key={item.id} id={item.id} title={item.title} hour={item.hour} date={item.date} description={item.description} />
                     )}
                     ListEmptyComponent={EmptyListComponent}
                 />
