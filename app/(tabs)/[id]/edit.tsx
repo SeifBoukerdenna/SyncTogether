@@ -2,13 +2,13 @@ import { Theme } from '@src/Theme/theme.d';
 import { useTheme } from '@src/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import updateEventInSupabase from '@src/Api/Event/updateEvent';
 import fetchEventFromSupabase from '@src/Api/Event/fetchEvent';
-import { EventType } from '@src/Component/Event/types';
+import { EventType, tag, tagColors } from '@src/Component/Event/types';
 
 const EditEventPage = () => {
     const { id } = useLocalSearchParams();
@@ -16,15 +16,18 @@ const EditEventPage = () => {
     const theme = useTheme();
     const styles = makeStyles(theme);
 
+    const [selectedTags, setSelectedTags] = useState<tag[]>([]);
+
     const queryClient = useQueryClient();
 
     const [formData, setFormData] = useState<EventType>({
         id: id as unknown as number,
         title: '',
         description: '',
-        date: new Date().toISOString().split('T')[0], // Default to today's date
-        hour: new Date().toTimeString().split(' ')[0], // Default to current time
+        date: new Date().toISOString().split('T')[0],
+        hour: new Date().toTimeString().split(' ')[0],
     });
+
 
     const fetchMutation = useMutation({
         mutationFn: () => fetchEventFromSupabase(id as string),
@@ -33,6 +36,7 @@ const EditEventPage = () => {
                 queryKey: ['events'],
             });
             setFormData(data);
+            setSelectedTags(data.tags || []); // Initialize selected tags
         }
     });
 
@@ -54,8 +58,9 @@ const EditEventPage = () => {
     const handleSubmit = () => {
         const updatedEvent = {
             ...formData,
-            date: new Date().toISOString().split('T')[0], // Format the date as needed
-            hour: new Date().toTimeString().split(' ')[0] // Format the hour as needed
+            date: new Date().toISOString().split('T')[0],
+            hour: new Date().toTimeString().split(' ')[0],
+            tags: selectedTags,
         };
         updateMutation.mutate(updatedEvent);
     };
@@ -77,6 +82,12 @@ const EditEventPage = () => {
         date.setHours(hours);
         date.setMinutes(minutes);
         return date;
+    };
+
+    const toggleTag = (tag: tag) => {
+        setSelectedTags(prevTags =>
+            prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]
+        );
     };
 
     return (
@@ -121,6 +132,21 @@ const EditEventPage = () => {
                                 handleChange('hour', currentTime.toTimeString().split(' ')[0]);
                             }}
                         />
+                    </View>
+                    <View style={styles.tagsContainer}>
+                        {Object.values(tag).map(tag => (
+                            <TouchableOpacity
+                                key={tag}
+                                style={[
+                                    styles.tagButton,
+                                    { backgroundColor: tagColors[tag] },
+                                    selectedTags.includes(tag) && styles.selectedTagButton
+                                ]}
+                                onPress={() => toggleTag(tag)}
+                            >
+                                <Text style={styles.tagButtonText}>{tag}</Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                     <Button
                         title="Edit Event"
@@ -170,6 +196,17 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         color: theme.colors.white,
         marginBottom: 20,
     },
+    tagsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginVertical: 10,
+    },
+    tagButton: {
+        padding: 10,
+        margin: 5,
+        borderRadius: 5,
+    },
     eventCard: {
         backgroundColor: theme.colors.black,
         borderWidth: 1,
@@ -209,6 +246,14 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
     buttonText: {
         color: theme.colors.white,
     },
+    selectedTagButton: {
+        borderColor: theme.colors.white,
+        borderWidth: 4,
+    },
+    tagButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    }
 });
 
 export default EditEventPage;

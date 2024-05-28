@@ -6,7 +6,8 @@ import { Theme } from '@src/Theme/theme.d';
 import { supabase } from 'supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { EventType } from './types';
+import { EventType, tag, tagColors } from './types';
+import getFormattedDate from '@src/utils/getFormattedDate';
 
 const deleteEventFromSupabase = async (id: number) => {
     const { data, error } = await supabase.from('Event').delete().match({ id });
@@ -16,7 +17,7 @@ const deleteEventFromSupabase = async (id: number) => {
     return data;
 };
 
-const EventComponent: React.FC<EventType> = ({ id, title, hour, date }) => {
+const EventComponent: React.FC<EventType> = ({ id, title, hour, date, tags }) => {
     const theme = useTheme();
     const styles = makeStyles(theme);
     const [pressIn, setIsPressIn] = useState(false);
@@ -33,7 +34,7 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date }) => {
     });
 
     const router = useRouter();
-
+    console.log(tags)
 
     return (
         <Button
@@ -45,17 +46,25 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date }) => {
             <Icon name="event" size={24} color="white" style={styles.icon} />
             <View style={styles.details}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.info}>{`ID: ${id}`}</Text>
-                <Text style={styles.info}>{`Date: ${date}`}</Text>
+                <Text style={styles.info}>{`Date: ${getFormattedDate(date)}`}</Text>
                 <Text style={styles.info}>{`Hour: ${hour}`}</Text>
+                <View style={styles.tagsContainer}>
+                    {tags?.map((tag, index) => (
+                        <View key={index} style={[styles.tag, { backgroundColor: tagColors[tag as never] }]}>
+                            <Text style={styles.tagText}>{tag as unknown as string}</Text>
+                        </View>
+                    ))}
+                    <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`/${id}/edit`)}>
+                        <Icon name="edit-2" type="feather" color={"white"} />
+                    </Button>
+                    <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => mutation.mutate()}>
+                        <Icon name="trash" type='feather' size={24} color="white" style={styles.icon} />
+                    </Button>
+                </View>
             </View>
-            <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => mutation.mutate()}>
-                <Icon name="trash" type='feather' size={24} color="white" style={styles.icon} />
-            </Button>
         </Button>
     );
 };
-
 
 const makeStyles = (theme: Theme) => StyleSheet.create({
     container: {
@@ -68,9 +77,6 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         borderRadius: 20,
         margin: 15,
     },
-    buttonStyleTrash: {
-
-    },
     containerPressIn: {
         borderWidth: 1,
         borderColor: theme.colors.primary,
@@ -79,7 +85,6 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         backgroundColor: theme.colors.black,
         padding: 10,
         borderRadius: 20,
-        margin: 15,
     },
     icon: {
         color: theme.colors.white,
@@ -98,7 +103,23 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         color: theme.colors.white,
         fontSize: 14,
     },
-})
-
+    tagsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end'
+    },
+    tag: {
+        marginVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 5,
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tagText: {
+        color: theme.colors.white,
+        fontSize: 12,
+    }
+});
 
 export default EventComponent;

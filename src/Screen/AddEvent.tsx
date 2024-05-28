@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from 'supabase';
-import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Button, Input, Text } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@src/hooks/useTheme';
@@ -15,6 +14,11 @@ enum Status {
     Success = 'success'
 }
 
+
+import { tag, tagColors } from '@src/Component/Event/types';
+
+
+
 const AddEvent: React.FC = () => {
     const theme = useTheme();
     const router = useRouter();
@@ -25,6 +29,7 @@ const AddEvent: React.FC = () => {
     const [description, setDescription] = useState('');
     const [date, setDate] = useState(new Date());
     const [hour, setHour] = useState(new Date());
+    const [selectedTags, setSelectedTags] = useState<tag[]>([]);
 
     const queryClient = useQueryClient();
 
@@ -37,6 +42,7 @@ const AddEvent: React.FC = () => {
             setStatus(Status.Success);
             setTitle('');
             setDescription('');
+            setSelectedTags([]);
             router.push('/calendar');
         },
         onError: (error: Error) => {
@@ -50,9 +56,16 @@ const AddEvent: React.FC = () => {
             title,
             description,
             date: date.toISOString().split('T')[0],
-            hour: hour.toTimeString().split(' ')[0]
+            hour: hour.toTimeString().split(' ')[0],
+            tags: selectedTags
         };
         mutate(eventData);
+    };
+
+    const toggleTag = (tag: tag) => {
+        setSelectedTags(prevTags =>
+            prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]
+        );
     };
 
     return (
@@ -96,6 +109,21 @@ const AddEvent: React.FC = () => {
                         }}
                     />
                 </View>
+                <View style={styles.tagsContainer}>
+                    {Object.values(tag).map(tag => (
+                        <TouchableOpacity
+                            key={tag}
+                            style={[
+                                styles.tagButton,
+                                { backgroundColor: tagColors[tag] },
+                                selectedTags.includes(tag) && styles.selectedTagButton
+                            ]}
+                            onPress={() => toggleTag(tag)}
+                        >
+                            <Text style={styles.tagButtonText}>{tag}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
                 {mutationStatus === 'pending' ? (
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 ) : (
@@ -121,8 +149,6 @@ const AddEvent: React.FC = () => {
         </TouchableWithoutFeedback>
     );
 };
-
-
 
 const makeStyles = (theme: Theme) => StyleSheet.create({
     container: {
@@ -174,8 +200,25 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         borderRadius: 15,
         width: '100%',
     },
-})
-
-
+    tagsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginVertical: 10,
+    },
+    tagButton: {
+        padding: 10,
+        margin: 5,
+        borderRadius: 5,
+    },
+    selectedTagButton: {
+        borderColor: '#fff',
+        borderWidth: 2,
+    },
+    tagButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    }
+});
 
 export default AddEvent;

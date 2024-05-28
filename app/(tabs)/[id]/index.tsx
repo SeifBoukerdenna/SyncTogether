@@ -7,8 +7,9 @@ import { Button, ButtonGroup, Icon } from '@rneui/themed';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import deleteEventFromSupabase from '@src/Api/Event/deleteEvent';
 import fetchEventFromSupabase from '@src/Api/Event/fetchEvent';
-import { EventType } from '@src/Component/Event/types';
-
+import { tag, tagColors } from '@src/Component/Event/types';
+import getFormattedDate from '@src/utils/getFormattedDate';
+import { refetchInterval } from '@src/utils/constants';
 
 
 const EventPage = () => {
@@ -22,7 +23,7 @@ const EventPage = () => {
     const { data: event, isLoading, refetch } = useQuery({
         queryKey: ['event', id],
         queryFn: () => fetchEventFromSupabase(id as string),
-        refetchInterval: 1000, // Refetch every 500ms
+        refetchInterval: refetchInterval,
     });
 
 
@@ -62,13 +63,18 @@ const EventPage = () => {
                         <Text style={styles.textStyle}>Description: {event.description}</Text>
                         <View style={styles.infoRow}>
                             <Icon name="calendar" type="feather" color={theme.colors.primary} />
-                            <Text style={styles.infoText}>{event.date}</Text>
+                            <Text style={styles.infoText}>{getFormattedDate(event.date)}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Icon name="clock" type="feather" color={theme.colors.primary} />
                             <Text style={styles.infoText}>{event.hour}</Text>
                         </View>
-                        <View style={styles.actionsContainer}>
+                        <View style={styles.tagsContainer}>
+                            {event.tags?.map((tag: tag, index: number) => (
+                                <View key={index} style={[styles.tag, { backgroundColor: tagColors[tag as never] }]}>
+                                    <Text style={styles.tagText}>{tag as unknown as string}</Text>
+                                </View>
+                            ))}
                             <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`/${id}/edit`)}>
                                 <Icon name="edit-2" type="feather" color={"white"} />
                             </Button>
@@ -103,6 +109,27 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         fontWeight: 'bold',
         color: theme.colors.white,
         marginBottom: 20,
+    },
+    icon: {
+        color: theme.colors.white,
+        marginRight: 10,
+    },
+    tagsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end'
+    },
+    tag: {
+        marginVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 5,
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tagText: {
+        color: theme.colors.white,
+        fontSize: 12,
     },
     actionsContainer: {
         flexDirection: "row",

@@ -14,7 +14,7 @@ import getCurrentDayFormatted from '@src/utils/getCurrentDay';
 import EventComponent from '@src/Component/Event/EventComponent';
 import EmptyListComponent from '@src/Component/EmptyListComponent';
 import fetchEvents from '@src/Api/Event/fetchEvents';
-
+import { refetchInterval } from '@src/utils/constants';
 
 const CalendarScreen = () => {
     const theme = useTheme();
@@ -23,8 +23,8 @@ const CalendarScreen = () => {
     const { data: events, error, isLoading } = useQuery<EventType[], Error>({
         queryKey: ['events'],
         queryFn: fetchEvents,
-        refetchInterval: 1000,
-    },);
+        refetchInterval: refetchInterval,
+    });
 
     const markedDates: MarkedDates = {};
 
@@ -55,7 +55,15 @@ const CalendarScreen = () => {
                     data={events}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <EventComponent key={item.id} id={item.id} title={item.title} hour={item.hour} date={item.date} description={item.description} />
+                        <EventComponent
+                            key={item.id}
+                            id={item.id}
+                            title={item.title}
+                            hour={item.hour}
+                            date={item.date}
+                            description={item.description}
+                            tags={item.tags}
+                        />
                     )}
                     ListEmptyComponent={EmptyListComponent}
                 />
