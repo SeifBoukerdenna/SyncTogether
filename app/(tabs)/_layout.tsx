@@ -53,7 +53,14 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="event/[id]"
+                name="[id]/index"
+                options={{
+                    href: null,
+                    headerShown: false
+
+                }} />
+            <Tabs.Screen
+                name="[id]/edit"
                 options={{
                     href: null,
                     headerShown: false

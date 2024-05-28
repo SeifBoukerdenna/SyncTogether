@@ -8,7 +8,7 @@ import { Theme } from '@src/Theme/theme.d';
 import { useRouter } from 'expo-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import addEventToSupabase from '@src/Api/Event/addEvent';
-// Enum for form status
+
 enum Status {
     Idle = 'idle',
     Error = 'error',
@@ -99,11 +99,20 @@ const AddEvent: React.FC = () => {
                 {mutationStatus === 'pending' ? (
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 ) : (
-                    <Button
-                        title="Add Event"
-                        onPress={handleAddEvent}
-                        buttonStyle={styles.button}
-                    />
+                    <>
+                        <Button
+                            title="Add Event"
+                            onPress={handleAddEvent}
+                            buttonStyle={styles.button}
+                        />
+                        <Button
+                            title="Cancel"
+                            titleStyle={{ color: theme.colors.white }}
+                            onPress={() => { router.push(`/calendar`) }}
+                            buttonStyle={styles.buttonOutline}
+                            type='outline'
+                        />
+                    </>
                 )}
                 {status === Status.Error && (
                     <Text style={styles.errorText}>Failed to create event. Please try again.</Text>
@@ -122,6 +131,12 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'gray',
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: theme.colors.white,
+        marginBottom: 20,
     },
     errorText: {
         color: 'red',
@@ -152,7 +167,13 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         fontWeight: '600',
         marginVertical: 20,
     },
-
+    buttonOutline: {
+        marginTop: 20,
+        borderColor: theme.colors.primary,
+        borderWidth: 1,
+        borderRadius: 15,
+        width: '100%',
+    },
 })
 
 

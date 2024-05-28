@@ -13,14 +13,8 @@ import CalendarButton from '@src/Component/Calendar/CalendarButton';
 import getCurrentDayFormatted from '@src/utils/getCurrentDay';
 import EventComponent from '@src/Component/Event/EventComponent';
 import EmptyListComponent from '@src/Component/EmptyListComponent';
+import fetchEvents from '@src/Api/Event/fetchEvents';
 
-const fetchEvents = async (): Promise<EventType[]> => {
-    const { data, error } = await supabase.from('Event').select('*');
-    if (error) {
-        throw new Error(error.message);
-    }
-    return data || [];
-};
 
 const CalendarScreen = () => {
     const theme = useTheme();
@@ -29,7 +23,8 @@ const CalendarScreen = () => {
     const { data: events, error, isLoading } = useQuery<EventType[], Error>({
         queryKey: ['events'],
         queryFn: fetchEvents,
-    });
+        refetchInterval: 1000,
+    },);
 
     const markedDates: MarkedDates = {};
 

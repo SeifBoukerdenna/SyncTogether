@@ -13,6 +13,7 @@ export default function Tab() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.header}>Event Details</Text>
             <AddEvent />
         </View>
     );
@@ -24,6 +25,12 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: theme.colors.white,
+        marginBottom: 20,
+    },
 })
 

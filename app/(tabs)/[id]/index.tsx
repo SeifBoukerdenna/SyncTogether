@@ -1,16 +1,13 @@
-// pages/event/[id].tsx
 import { Theme } from '@src/Theme/theme.d';
 import { useTheme } from '@src/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button, Icon } from '@rneui/themed';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button, ButtonGroup, Icon } from '@rneui/themed';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import deleteEventFromSupabase from '@src/Api/Event/deleteEvent';
 import fetchEventFromSupabase from '@src/Api/Event/fetchEvent';
 import { EventType } from '@src/Component/Event/types';
-
-
 
 
 
@@ -22,14 +19,21 @@ const EventPage = () => {
 
     const queryClient = useQueryClient();
 
+    const { data: event, isLoading, refetch } = useQuery({
+        queryKey: ['event', id],
+        queryFn: () => fetchEventFromSupabase(id as string),
+        refetchInterval: 1000, // Refetch every 500ms
+    });
+
+
+
     const addMutation = useMutation({
         mutationFn: () => fetchEventFromSupabase(id as string),
         onSuccess: (data) => {
             queryClient.invalidateQueries({
                 queryKey: ['events'],
             });
-            setEvent(data);
-        }
+        },
     });
 
     const deleteMutation = useMutation({
@@ -40,10 +44,9 @@ const EventPage = () => {
         },
         onError: (error) => {
             console.error('Error deleting event:', error);
-        }
+        },
     });
 
-    const [event, setEvent] = useState<EventType>();
 
     useEffect(() => {
         addMutation.mutate();
@@ -66,7 +69,9 @@ const EventPage = () => {
                             <Text style={styles.infoText}>{event.hour}</Text>
                         </View>
                         <View style={styles.actionsContainer}>
-                            <Icon name="edit-2" type="feather" color={"white"} />
+                            <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`/${id}/edit`)}>
+                                <Icon name="edit-2" type="feather" color={"white"} />
+                            </Button>
                             <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => deleteMutation.mutate()}>
                                 <Icon name="trash" type='feather' size={24} color="white" />
                             </Button>

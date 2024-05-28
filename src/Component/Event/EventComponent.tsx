@@ -40,7 +40,7 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date }) => {
             buttonStyle={pressIn ? styles.containerPressIn : styles.container}
             onPressOut={() => { setIsPressIn(false) }}
             onPressIn={() => { setIsPressIn(true) }}
-            onPress={() => { router.navigate(`/event/${id}`) }} //navigate to the page with id as user
+            onPress={() => { router.navigate(`${id}/`) }}
         >
             <Icon name="event" size={24} color="white" style={styles.icon} />
             <View style={styles.details}>
