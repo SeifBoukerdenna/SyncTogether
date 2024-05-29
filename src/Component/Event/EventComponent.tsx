@@ -40,7 +40,7 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date, tags }) =>
             buttonStyle={pressIn ? styles.containerPressIn : styles.container}
             onPressOut={() => { setIsPressIn(false) }}
             onPressIn={() => { setIsPressIn(true) }}
-            onPress={() => { router.navigate(`${id}/`) }}
+            onPress={() => { router.navigate(`event/${id}/`) }}
         >
             <Icon name="event" size={24} color="white" style={styles.icon} />
             <View style={styles.details}>
@@ -53,7 +53,7 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date, tags }) =>
                             <Text style={styles.tagText}>{tag as unknown as string}</Text>
                         </View>
                     ))}
-                    <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`/${id}/edit`)}>
+                    <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`event/${id}/edit`)}>
                         <Icon name="edit-2" type="feather" color={"white"} />
                     </Button>
                     <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => mutation.mutate()}>

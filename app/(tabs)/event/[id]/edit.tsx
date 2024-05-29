@@ -159,7 +159,7 @@ const EditEventPage = () => {
                     <Button
                         title="Cancel"
                         titleStyle={styles.buttonText}
-                        onPress={() => { router.replace(`${id}`) }}
+                        onPress={() => { router.replace(`event/${id}`) }}
                         buttonStyle={styles.buttonOutline}
                         type='outline'
                     />

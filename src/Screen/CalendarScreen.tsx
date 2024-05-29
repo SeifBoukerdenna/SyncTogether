@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, Button } from '@rneui/themed';
 import { Theme } from '@src/Theme/theme.d';
 import { useTheme } from '@src/hooks/useTheme';
-import { supabase } from 'supabase';
 import { useQuery } from '@tanstack/react-query';
 import { MarkedDates } from 'react-native-calendars/src/types';
 import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
@@ -12,7 +11,7 @@ import CalendarComponent from '@src/Component/Calendar/CalendarComponent';
 import CalendarButton from '@src/Component/Calendar/CalendarButton';
 import getCurrentDayFormatted from '@src/utils/getCurrentDay';
 import EventComponent from '@src/Component/Event/EventComponent';
-import EmptyListComponent from '@src/Component/EmptyListComponent';
+import EmptyListComponent from '@src/Component/Other/EmptyListComponent';
 import fetchEvents from '@src/Api/Event/fetchEvents';
 import { refetchInterval } from '@src/utils/constants';
 

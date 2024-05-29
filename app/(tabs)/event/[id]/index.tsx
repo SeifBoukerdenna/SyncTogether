@@ -82,7 +82,7 @@ const EventPage = () => {
                                     <Text style={styles.tagText}>{tag as unknown as string}</Text>
                                 </View>
                             ))}
-                            <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`/${id}/edit`)}>
+                            <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => router.navigate(`event/${id}/edit`)}>
                                 <Icon name="edit-2" type="feather" color={"white"} />
                             </Button>
                             <Button buttonStyle={{ backgroundColor: 'transparent' }} onPress={() => deleteMutation.mutate()}>
