@@ -23,8 +23,15 @@ const EventPage = () => {
     const { data: event, isLoading, refetch } = useQuery({
         queryKey: ['event', id],
         queryFn: () => fetchEventFromSupabase(id as string),
-        refetchInterval: refetchInterval,
+        // refetchInterval: refetchInterval,
     });
+
+
+    useEffect(() => {
+        if (event?.hour === undefined) return;
+        const [hour, minute] = event.hour.split(':');
+        event.hour = hour.toString() + ":" + minute.toString();
+    }, [])
 
 
 

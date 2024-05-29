@@ -115,7 +115,11 @@ const AddEvent: React.FC = () => {
                             key={tag}
                             style={[
                                 styles.tagButton,
-                                { backgroundColor: tagColors[tag] },
+                                {
+                                    borderColor: theme.colors.white,
+                                    borderWidth: 1
+
+                                },
                                 selectedTags.includes(tag) && styles.selectedTagButton
                             ]}
                             onPress={() => toggleTag(tag)}
@@ -212,8 +216,8 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         borderRadius: 5,
     },
     selectedTagButton: {
-        borderColor: '#fff',
-        borderWidth: 2,
+        borderColor: theme.colors.primary,
+        borderWidth: 1,
     },
     tagButtonText: {
         color: '#fff',

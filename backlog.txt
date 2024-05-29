@@ -1,0 +1,5 @@
+Events
+-Fix hour display make it xx:xx am/pm instead of xx:xx:xx+00
+-Better abstraction, start reusing styles and components
+-Make screen logic more consistent (Screens should just render component tree without any actual logic)
+

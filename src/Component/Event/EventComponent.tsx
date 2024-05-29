@@ -34,7 +34,6 @@ const EventComponent: React.FC<EventType> = ({ id, title, hour, date, tags }) =>
     });
 
     const router = useRouter();
-    console.log(tags)
 
     return (
         <Button

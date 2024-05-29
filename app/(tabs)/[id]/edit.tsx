@@ -139,7 +139,10 @@ const EditEventPage = () => {
                                 key={tag}
                                 style={[
                                     styles.tagButton,
-                                    { backgroundColor: tagColors[tag] },
+                                    {
+                                        borderColor: theme.colors.white,
+                                        borderWidth: 1
+                                    },
                                     selectedTags.includes(tag) && styles.selectedTagButton
                                 ]}
                                 onPress={() => toggleTag(tag)}
@@ -247,8 +250,8 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         color: theme.colors.white,
     },
     selectedTagButton: {
-        borderColor: theme.colors.white,
-        borderWidth: 4,
+        borderColor: theme.colors.primary,
+        borderWidth: 1,
     },
     tagButtonText: {
         color: '#fff',

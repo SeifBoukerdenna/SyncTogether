@@ -9,6 +9,5 @@ const getCurrentDayFormatted = (): string => {
     return `${day} ${month} ${year}`;
 }
 
-console.log(getCurrentDayFormatted());
 
 export default getCurrentDayFormatted;
