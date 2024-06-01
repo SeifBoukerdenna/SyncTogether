@@ -1,4 +1,4 @@
-import { supabase } from "supabase";
+import { supabase } from "lib/supabase";
 
 const fetchEventFromSupabase = async (id: string) => {
     const { data, error } = await supabase.from('Event').select('*').eq('id', id).single();

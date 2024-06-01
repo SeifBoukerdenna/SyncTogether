@@ -1,5 +1,5 @@
 import { EventType } from "@src/Component/Event/types";
-import { supabase } from "supabase";
+import { supabase } from "lib/supabase";
 
 const fetchEvents = async (): Promise<EventType[]> => {
     const { data, error } = await supabase.from('Event').select('*');

@@ -1,4 +1,4 @@
-import { supabase } from "supabase";
+import { supabase } from "lib/supabase";
 
 const deleteEventFromSupabase = async (id: string) => {
     const { data, error } = await supabase.from('Event').delete().match({ id });

@@ -18,6 +18,7 @@ const bottomFooterComponent = () => {
 const makeStyles = (theme: Theme) => StyleSheet.create({
     container: {
         bottom: 0,
+        marginBottom: 10,
         // justifyContent: 'center',
         alignItems: 'center',
     },

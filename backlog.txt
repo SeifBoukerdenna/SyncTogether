@@ -3,3 +3,7 @@ Events
 -Better abstraction, start reusing styles and components
 -Make screen logic more consistent (Screens should just render component tree without any actual logic)
 
+Account
+-Need to add protected routes
+-Need to add correct redirects
+-Better account displaying

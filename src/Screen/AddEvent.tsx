@@ -140,7 +140,7 @@ const AddEvent: React.FC = () => {
                         <Button
                             title="Cancel"
                             titleStyle={{ color: theme.colors.white }}
-                            onPress={() => { router.push(`/calendar`) }}
+                            onPress={() => { router.back() }}
                             buttonStyle={styles.buttonOutline}
                             type='outline'
                         />

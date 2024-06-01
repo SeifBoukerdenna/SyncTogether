@@ -38,16 +38,17 @@ export default function TabLayout() {
             />
 
             <Tabs.Screen
-                name="settings"
+                name="account"
                 options={{
-                    title: 'Settings',
+                    title: 'account',
                     tabBarIcon: ({ color }) => <Icon size={28} type='font-awesome' name="camera-retro" color={color} />,
                     headerShown: false
                 }}
             />
             <Tabs.Screen
-                name="account"
+                name="settings"
                 options={{
+                    title: 'settings',
                     tabBarIcon: ({ color }) => <Icon name="cog" type="font-awesome" color={color} size={28} />,
                     headerShown: false
                 }}

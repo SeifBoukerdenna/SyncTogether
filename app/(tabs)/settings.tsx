@@ -1,9 +1,9 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 import React from 'react';
 import { Theme } from 'src/Theme/theme.d';
 import { Button, Text, Icon } from '@rneui/themed';
-
+import Settings from '@src/Component/Settings/Settings';
 
 
 export default function Tab() {
@@ -11,9 +11,9 @@ export default function Tab() {
     const styles = makeStyles(theme);
 
     return (
-        <View style={styles.container}>
-            <Text h1>Settings page</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Settings />
+        </SafeAreaView>
     );
 }
 

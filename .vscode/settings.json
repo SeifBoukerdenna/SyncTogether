@@ -6,6 +6,7 @@
         "rneui",
         "supabase",
         "tamagui",
-        "tanstack"
+        "tanstack",
+        "zustand"
     ]
 }

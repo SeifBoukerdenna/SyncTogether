@@ -1,4 +1,4 @@
-import { supabase } from "supabase";
+import { supabase } from "lib/supabase";
 
 // Function to add an event to Supabase
 const addEventToSupabase = async (eventData: {

@@ -25,10 +25,10 @@ const CardEvent = () => {
                 <Text h4 h4Style={{ color: theme.colors.white }}>{title}</Text>
             </View>
             <View style={styles.descriptionContainer}>
-                <Text>{"Event Descriptio, Event Descriptio, Event Descriptio, Event Descriptio, Event Descriptio"}</Text>
+                <Text style={{ color: theme.colors.white }}>{"Event Descriptio, Event Descriptio, Event Descriptio, Event Descriptio, Event Descriptio"}</Text>
             </View>
             <View style={styles.tagsContainer}>
-                <Text>{tags}</Text>
+                <Text style={{ color: theme.colors.white }}>{tags}</Text>
             </View>
         </View>
     )
@@ -39,10 +39,10 @@ const makeStyles = (theme: Theme) => StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         borderColor: theme.colors.grey,
-        height: 200,
         justifyContent: 'center',
         width: '100%',
         backgroundColor: theme.colors.black,
+        flexWrap: 'wrap'
     },
     dateContainer: {
         alignItems: 'flex-start',

@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Button, Text, Icon } from '@rneui/themed';
 import { useTheme } from '@src/hooks/useTheme';
 import { Theme } from '@src/Theme/theme.d';
-import { supabase } from 'supabase';
+import { supabase } from 'lib/supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { EventType, tag, tagColors } from './types';
