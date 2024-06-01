@@ -5,6 +5,7 @@
         "Pressable",
         "rneui",
         "supabase",
+        "synctogether",
         "tamagui",
         "tanstack",
         "zustand"
