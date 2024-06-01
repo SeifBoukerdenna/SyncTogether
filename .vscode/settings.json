@@ -1,13 +1,19 @@
 {
-    "cSpell.words": [
-        "datetimepicker",
-        "ionicon",
-        "Pressable",
-        "rneui",
-        "supabase",
-        "synctogether",
-        "tamagui",
-        "tanstack",
-        "zustand"
-    ]
+	"cSpell.words": [
+		"datetimepicker",
+		"ionicon",
+		"Parens",
+		"Pressable",
+		"rneui",
+		"supabase",
+		"synctogether",
+		"tamagui",
+		"tanstack",
+		"zustand"
+	],
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode"
 }
