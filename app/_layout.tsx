@@ -12,9 +12,14 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <Stack>
-          {session && session.user ? <Stack.Screen name="onBoarding" options={{ headerShown: false }} />
-            :
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />}
+          {!session ? <Stack.Screen name="LoginPage" options={{ headerShown: false }} /> :
+            <>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="onBoarding" options={{ headerShown: false }} />
+            </>
+          }
+
         </Stack>
       </ThemeProvider>
     </QueryClientProvider>

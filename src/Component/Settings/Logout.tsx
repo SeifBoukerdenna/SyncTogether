@@ -19,7 +19,7 @@ const Logout = () => {
             console.error('Logout failed:', error.message);
         } else {
             setSession(null);
-            router.navigate('onBoarding')
+            router.replace('/')
         }
     };
 
